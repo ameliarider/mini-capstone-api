@@ -8,3 +8,4 @@ end
 # get "/products/necklaces" => "products#show_necklaces"
 # get "/products/bracelets" => "products#show_bracelets"
 # get "/products/earrings" => "products#show_earrings"
+# testing changes
