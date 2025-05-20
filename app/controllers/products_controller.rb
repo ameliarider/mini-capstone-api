@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
   end
 
   def create
-    product = Product.create(
+    @product = Product.create(
       name: params["name"],
       price: params["price"],
       image_url: params["image_url"],
@@ -20,17 +20,21 @@ class ProductsController < ApplicationController
   end
 
   def update
-    product = Product.find(params["id"])
-    product.update(
-      name: params["name"],
-      price: params["price"],
-      image_url: params["image_url"],
-      description: params["description"]
+    @product = Product.find(params["id"])
+    @product.update(
+      name: params["name"] || product.name,
+      price: params["price"] || product.price,
+      image_url: params["image_url"] || product.image_url,
+      description: params["description"] || product.description
     )
     render json: product
   end
 
   def destroy
+    @product = Product.find(params["id"])
+    @product.destroy
+
+    render json: { message: "Product deleted" }
   end
 
   # def show_necklaces
