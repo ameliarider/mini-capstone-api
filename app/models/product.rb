@@ -16,7 +16,6 @@ class Product < ApplicationRecord
   end
 
   def tax
-    tax = price * 0.09
-    "$#{tax}"
+    "$#{price * 0.09}"
   end
 end
