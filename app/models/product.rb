@@ -1,4 +1,9 @@
 class Product < ApplicationRecord
+  validates :name, presence: true
+  validates :name, length: { maximum: 400 }
+  validates :price, numericality: true
+  validates :description, length: { in: 4..50 }
+  # validates :image_url, inclusion: { in: %w[small medium large] }
   def formatted_price
     "$#{price}"
   end
