@@ -1,34 +1,6 @@
-Product.create!([
-  {name: "necklace", price: 100, image_url: "necklace_img", description: "gold necklace with pearls"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img", description: "5 cms"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img", description: "9 cms"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img", description: "11 cm"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img", description: "12 cm"},
-  {name: "earrings", price: 80, image_url: "earrings_img", description: "4 cms"},
-  {name: "earrings", price: 85, image_url: "earrings_img", description: "5 cms"},
-  {name: "earrings", price: 90, image_url: "earrings_img", description: "6 cms"},
-  {name: "earrings", price: 100, image_url: "earrings_img", description: "8 cms"},
-  {name: "earrings", price: 105, image_url: "earrings_img", description: "9 cms"},
-  {name: "earrings", price: 110, image_url: "earrings_img", description: "10 cms"},
-  {name: "earrings", price: 115, image_url: "earrings_img", description: "11 cm"},
-  {name: "earrings", price: 120, image_url: "earrings_img", description: "12 cm"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img", description: "gold"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img", description: "silver"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img", description: "gold"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img", description: "silver"},
-  {name: "earrings", price: 75, image_url: "earrings_img", description: "gold"},
-  {name: "new product", price: 50, image_url: "item_img", description: "pretty jewelry"},
-  {name: "new_jewelry", price: 100, image_url: "jewelry_url", description: "new item"},
-  {name: "new_earrings", price: 100, image_url: "jewelry_url", description: "new item"},
-  {name: "name", price: 1000, image_url: nil, description: "new item"},
-  {name: "ring", price: 50, image_url: nil, description: "gold"},
-  {name: "ring", price: 30, image_url: "silver_ring.png", description: "silver"},
-  {name: "ring", price: 30, image_url: "silver_ring.png", description: "silver"},
-  {name: "ring", price: 10, image_url: "silver_ring.png", description: "silver"},
-  {name: "anklet", price: 15, image_url: "anklet.png", description: "rose gold"},
-  {name: "beaded necklage", price: 50, image_url: "beaded_necklace.jpg", description: "gold"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img.png", description: "7 cms"},
-  {name: "bracelet", price: 50, image_url: "bracelet_img", description: "14 cm"},
-  {name: "name", price: 95, image_url: "earrings_img", description: "7 cms"},
-  {name: "beaded necklace", price: 0, image_url: "beaded_necklace.jpg", description: "gold"}
-])
+## Create Images
+index = 3
+33.times do
+  image = Image.create(url: "image_#{index}.png", description: "image of jewelry item")
+  index = index + 1
+end

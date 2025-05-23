@@ -3,7 +3,8 @@ class Product < ApplicationRecord
   validates :name, length: { maximum: 400 }
   validates :price, numericality: true
   validates :description, length: { in: 4..50 }
-  # validates :image_url, inclusion: { in: %w[small medium large] }
+  belongs_to :supplier
+  has_many :images
   def formatted_price
     if price
       "$#{price}"
@@ -36,7 +37,7 @@ class Product < ApplicationRecord
     end
   end
 
-  def supplier
-    Supplier.find_by(id: supplier_id)
-  end
+  # def supplier
+  #   Supplier.find_by(id: supplier_id)
+  # end
 end
