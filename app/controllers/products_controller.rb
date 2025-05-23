@@ -16,18 +16,27 @@ class ProductsController < ApplicationController
       image_url: params["image_url"],
       description: params["description"]
     )
-    render json: product
+
+    if @product.valid?
+      render :show
+    else
+      render json: { errors: @product.errors.full_messages }
+    end
   end
 
   def update
     @product = Product.find(params["id"])
     @product.update(
-      name: params["name"] || product.name,
-      price: params["price"] || product.price,
-      image_url: params["image_url"] || product.image_url,
-      description: params["description"] || product.description
+      name: params["name"] || @product.name,
+      price: params["price"] || @product.price,
+      image_url: params["image_url"] || @product.image_url,
+      description: params["description"] || @product.description
     )
-    render json: product
+    if @product.valid?
+      render :show
+    else
+      render json: { errors: @product.errors.full_messages }
+    end
   end
 
   def destroy
@@ -36,24 +45,4 @@ class ProductsController < ApplicationController
 
     render json: { message: "Product deleted" }
   end
-
-  # def show_necklaces
-  #   products = Product.where(name: "necklace")
-  #   render json: products
-  # end
-
-  # def show_bracelets
-  #   products = Product.where(name: "bracelet")
-  #   render json: products
-  # end
-
-  # def show_earrings
-  #   products = Product.where(name: "earrings")
-  #   render json: products
-  # end
-
-  # def show_gold_jewelry
-  #   products = Product.where(description: "gold")
-  #   render json: products
-  # end
 end
