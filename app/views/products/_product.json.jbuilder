@@ -1,9 +1,6 @@
 json.id product.id
 json.name product.name
-json.item_price product.formatted_price
+json.price product.price
 json.description product.description
-json.product_launched product.formatted_created_at
-json.product_discounted product.is_discounted?
-json.tax product.tax
 json.supplier product.supplier
 json.images product.images

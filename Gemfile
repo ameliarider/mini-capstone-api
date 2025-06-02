@@ -57,3 +57,5 @@ group :test do
 end
 
 gem "seed_dump"
+
+gem "rack-cors"
