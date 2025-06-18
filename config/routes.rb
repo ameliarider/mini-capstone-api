@@ -15,9 +15,7 @@ Rails.application.routes.draw do
 
   get "/users" => "users#index"
   post "/signup" => "users#create"
-end
 
-# get "/products/necklaces" => "products#show_necklaces"
-# get "/products/bracelets" => "products#show_bracelets"
-# get "/products/earrings" => "products#show_earrings"
-# testing changes
+  post "/sessions" => "sessions#create"
+  delete "/sessions" => "sessions#destroy"
+end

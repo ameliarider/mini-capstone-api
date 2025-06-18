@@ -1,5 +1,8 @@
 class SuppliersController < ApplicationController
   def index
+    puts "----------------------"
+    puts current_user.name
+    puts "----------------------"
     @suppliers = Supplier.all
     render :index
   end
