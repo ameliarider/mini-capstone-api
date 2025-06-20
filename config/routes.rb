@@ -13,6 +13,11 @@ Rails.application.routes.draw do
   get "/images/:id" => "images#show"
   post "/images" => "images#create"
 
+  get "/orders" => "orders#index"
+  get "/orders/:id" => "orders#show"
+  post "/orders" => "orders#create"
+  delete "/orders/:id" => "orders#destroy"
+
   get "/users" => "users#index"
   post "/signup" => "users#create"
 

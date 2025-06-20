@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   validates :description, length: { in: 4..50 }
   belongs_to :supplier
   has_many :images
+  has_many :orders
   def formatted_price
     if price
       "$#{price}"
