@@ -3,25 +3,33 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
+
+    if params[:category]
+      category = Product.find_by(name: params[:category])
+      @products = category.products
+    end
     render :index
   end
 
   def show
-    @product = Product.find(params["id"])
+    @product = Product.find(id: params[:id])
     render :show
   end
 
   def create
-    @product = Product.create(
+    @product = Product.new(
       name: params["name"],
       price: params["price"],
       description: params["description"],
       supplier_id: params["supplier_id"]
     )
 
-    if @product.valid?
+    if @product.save
       render :show
     else
+      puts "--------"
+      puts @product.errors.full_messages
+      puts "--------"
       render json: { errors: @product.errors.full_messages }
     end
   end
@@ -42,7 +50,7 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-    @product = Product.find(params["id"])
+    @product = Product.find_by(id: params[:id])
     @product.destroy
 
     render json: { message: "Product deleted" }

@@ -12,6 +12,11 @@ Rails.application.routes.draw do
   get "/images" => "images#index"
   get "/images/:id" => "images#show"
   post "/images" => "images#create"
+  get "/categories" => "categories#index"
+
+  get "/cart" => "carted_products#index"
+  post "/cart" => "carted_products#create"
+  patch "/cart/:id" => "carted_products#destroy"
 
   get "/orders" => "orders#index"
   get "/orders/:id" => "orders#show"
@@ -21,6 +26,6 @@ Rails.application.routes.draw do
   get "/users" => "users#index"
   post "/signup" => "users#create"
 
-  post "/sessions" => "sessions#create"
-  delete "/sessions" => "sessions#destroy"
+  post "/login" => "sessions#create"
+  delete "/logout" => "sessions#destroy"
 end

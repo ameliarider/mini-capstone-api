@@ -59,3 +59,5 @@ end
 gem "seed_dump"
 
 gem "rack-cors"
+
+gem "faker"
