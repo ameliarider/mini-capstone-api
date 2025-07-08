@@ -18,7 +18,7 @@ require "bigdecimal/util"
 TAX_RATE = 0.05 # 5 %
 
 puts "\n🌱  Resetting tables…"
-[ Image, CategoryProduct, Category, Order,
+[ Image, CategoryProduct, Category, CartedProduct, Order,
  Product, Supplier, User ].each(&:delete_all)
 
 # ---------------------------- Users -------------------------------
@@ -45,8 +45,7 @@ puts "🏭  Creating suppliers…"
 3.times do
   Supplier.create!(
     name:         Faker::Company.unique.name,
-    email:        Faker::Internet.unique.email,
-    phone: Faker::PhoneNumber.phone_number
+    email:        Faker::Internet.unique.email
   )
 end
 suppliers = Supplier.all
@@ -89,30 +88,50 @@ puts "🧾  Creating orders…"
 users = User.where(admin: false)
 
 100.times do
-  product  = products.sample
-  quantity = rand(1..5)
-  subtotal = (product.price * quantity).to_d
-  tax      = (subtotal * TAX_RATE).round(2)
-  total    = subtotal + tax
+  user = users.sample
 
-  Order.create!(
-    user:     users.sample,
-    product:  product,
-    quantity: quantity,
+  # Create 1-3 carted products for this order
+  carted_products = []
+  rand(1..3).times do
+    product = products.sample
+    quantity = rand(1..5)
+
+    carted_products << CartedProduct.create!(
+      user: user,
+      product: product,
+      quantity: quantity,
+      status: "purchased"
+    )
+  end
+
+  # Calculate totals for the order
+  subtotal = carted_products.sum { |cp| (cp.product.price * cp.quantity).to_d }
+  tax = (subtotal * TAX_RATE).round(2)
+  total = subtotal + tax
+
+  # Create the order
+  order = Order.create!(
+    user: user,
     subtotal: subtotal,
-    tax:      tax,
-    total:    total
+    tax: tax,
+    total: total
   )
+
+  # Associate the carted products with the order
+  carted_products.each do |cp|
+    cp.update!(order: order)
+  end
 end
 
 # --------------------------- Summary ------------------------------
 puts "\n✅  Seeding complete!"
-puts "   Users:      #{User.count} (#{User.where(admin: true).count} admin)"
-puts "   Suppliers:  #{Supplier.count}"
-puts "   Categories: #{Category.count}"
-puts "   Products:   #{Product.count}"
-puts "   Images:     #{Image.count}"
-puts "   Orders:     #{Order.count}"
+puts "   Users:         #{User.count} (#{User.where(admin: true).count} admin)"
+puts "   Suppliers:     #{Supplier.count}"
+puts "   Categories:    #{Category.count}"
+puts "   Products:      #{Product.count}"
+puts "   Images:        #{Image.count}"
+puts "   Orders:        #{Order.count}"
+puts "   Cart Items:    #{CartedProduct.count}"
 
 # If you ever need to reuse Faker's unique generators elsewhere:
 #   Faker::UniqueGenerator.clear
