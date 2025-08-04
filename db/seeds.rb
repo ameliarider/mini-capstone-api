@@ -58,70 +58,70 @@ category_names = %w[
 ]
 categories = category_names.map { |n| Category.create!(name: n) }
 
-# --------------------------- Products -----------------------------
-puts "📦  Creating products, images & tags…"
-50.times do
-  product = Product.create!(
-    name:        Faker::Commerce.unique.product_name,
-    description: Faker::Lorem.sentence(word_count: 12),
-    price:       Faker::Commerce.price(range: 5..200).round, # integer dollars
-    supplier:    suppliers.sample
-  )
+# # --------------------------- Products -----------------------------
+# puts "📦  Creating products, images & tags…"
+# 50.times do
+#   product = Product.create!(
+#     name:        Faker::Commerce.unique.product_name,
+#     description: Faker::Lorem.sentence(word_count: 12),
+#     price:       Faker::Commerce.price(range: 5..200).round, # integer dollars
+#     supplier:    suppliers.sample
+#   )
 
-  # 1-3 placeholder images
-  rand(1..3).times do
-    Image.create!(
-      url: "https://picsum.photos/seed/#{SecureRandom.hex(4)}/400/400",
-      product: product
-    )
-  end
+#   # 1-3 placeholder images
+#   rand(1..3).times do
+#     Image.create!(
+#       url: "https://picsum.photos/seed/#{SecureRandom.hex(4)}/400/400",
+#       product: product
+#     )
+#   end
 
-  # tag with 1-3 categories
-  categories.sample(rand(1..3)).each do |cat|
-    CategoryProduct.create!(product: product, category: cat)
-  end
-end
-products = Product.all
+#   # tag with 1-3 categories
+#   categories.sample(rand(1..3)).each do |cat|
+#     CategoryProduct.create!(product: product, category: cat)
+#   end
+# end
+# products = Product.all
 
-# ---------------------------- Orders ------------------------------
-puts "🧾  Creating orders…"
-users = User.where(admin: false)
+# # ---------------------------- Orders ------------------------------
+# puts "🧾  Creating orders…"
+# users = User.where(admin: false)
 
-100.times do
-  user = users.sample
+# 100.times do
+#   user = users.sample
 
-  # Create 1-3 carted products for this order
-  carted_products = []
-  rand(1..3).times do
-    product = products.sample
-    quantity = rand(1..5)
+#   # Create 1-3 carted products for this order
+#   carted_products = []
+#   rand(1..3).times do
+#     product = products.sample
+#     quantity = rand(1..5)
 
-    carted_products << CartedProduct.create!(
-      user: user,
-      product: product,
-      quantity: quantity,
-      status: "purchased"
-    )
-  end
+#     carted_products << CartedProduct.create!(
+#       user: user,
+#       product: product,
+#       quantity: quantity,
+#       status: "purchased"
+#     )
+#   end
 
-  # Calculate totals for the order
-  subtotal = carted_products.sum { |cp| (cp.product.price * cp.quantity).to_d }
-  tax = (subtotal * TAX_RATE).round(2)
-  total = subtotal + tax
+#   # Calculate totals for the order
+#   subtotal = carted_products.sum { |cp| (cp.product.price * cp.quantity).to_d }
+#   tax = (subtotal * TAX_RATE).round(2)
+#   total = subtotal + tax
 
-  # Create the order
-  order = Order.create!(
-    user: user,
-    subtotal: subtotal,
-    tax: tax,
-    total: total
-  )
+#   # Create the order
+#   order = Order.create!(
+#     user: user,
+#     subtotal: subtotal,
+#     tax: tax,
+#     total: total
+#   )
 
-  # Associate the carted products with the order
-  carted_products.each do |cp|
-    cp.update!(order: order)
-  end
-end
+#   # Associate the carted products with the order
+#   carted_products.each do |cp|
+#     cp.update!(order: order)
+#   end
+# end
 
 # --------------------------- Summary ------------------------------
 puts "\n✅  Seeding complete!"

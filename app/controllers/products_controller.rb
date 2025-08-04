@@ -17,22 +17,23 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(
-      name: params["name"],
-      price: params["price"],
-      description: params["description"],
-      supplier_id: params["supplier_id"]
-    )
+    @product = Product.new(product_params.except(:image, :image_description))
 
     if @product.save
+      if product_params[:image].present?
+        @image = @product.images.build(description: product_params[:image_description])
+        @image.image.attach(product_params[:image])
+        unless @image.save
+          render json: { errors: @image.errors.full_messages }, status: :unprocessable_entity and return
+        end
+      end
+
       render :show
     else
-      puts "--------"
-      puts @product.errors.full_messages
-      puts "--------"
-      render json: { errors: @product.errors.full_messages }
+      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
 
   def update
     @product = Product.find(params["id"])
@@ -54,5 +55,10 @@ class ProductsController < ApplicationController
     @product.destroy
 
     render json: { message: "Product deleted" }
+  end
+
+  private
+  def product_params
+    params.permit(:name, :price, :description, :supplier_id, :image, :image_description)
   end
 end
